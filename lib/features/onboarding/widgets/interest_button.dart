@@ -26,7 +26,7 @@ class _InterestButtonState extends State<InterestButton> {
     return GestureDetector(
       onTap: _onTap,
       child: AnimatedContainer(
-        duration: const Duration(microseconds: 300),
+        duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.symmetric(
           vertical: Sizes.size16,
           horizontal: Sizes.size24,

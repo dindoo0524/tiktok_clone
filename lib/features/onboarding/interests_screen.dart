@@ -84,7 +84,6 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _scrollController.dispose();
     super.dispose();
   }
@@ -95,7 +94,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
       appBar: AppBar(
         title: AnimatedOpacity(
           opacity: _showTitle ? 1 : 0,
-          duration: const Duration(microseconds: 300),
+          duration: const Duration(milliseconds: 300),
           child: const Text('Choose your interests'),
         ),
       ),
