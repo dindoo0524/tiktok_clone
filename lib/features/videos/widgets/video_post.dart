@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -19,12 +21,13 @@ class VideoPost extends StatefulWidget {
 
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/reels.mp4");
+  late final VideoPlayerController _videoPlayerController;
 
   bool _isPaused = false;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
+  final _tags = '#happy #friend #mylove';
+  bool _isShowAllTags = false;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -37,7 +40,11 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _initVideoPlayer() async {
+    _videoPlayerController =
+        VideoPlayerController.asset("assets/videos/reels.mp4");
     await _videoPlayerController.initialize();
+    await _videoPlayerController.setLooping(true);
+
     // _videoPlayerController.play();
     // 임시 볼륨 코드
     _videoPlayerController.setVolume(0);
@@ -87,6 +94,12 @@ class _VideoPostState extends State<VideoPost>
     });
   }
 
+  void _onMoreTap() {
+    setState(() {
+      _isShowAllTags = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -128,6 +141,88 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            left: 10,
+            bottom: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '@dindoo',
+                  style: TextStyle(
+                    fontSize: Sizes.size20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Gaps.v10,
+                const Text(
+                  'This is my first reels in the world',
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                    color: Colors.white,
+                  ),
+                ),
+                Gaps.v5,
+                Row(
+                  children: [
+                    SizedBox(
+                      width: _isShowAllTags ? 200 : 150,
+                      child: Text(
+                        _tags,
+                        overflow: _isShowAllTags
+                            ? TextOverflow.visible
+                            : TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: Sizes.size16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: _onMoreTap,
+                      child: const Text(
+                        'See more',
+                        style: TextStyle(
+                          fontSize: Sizes.size16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          const Positioned(
+            bottom: 20,
+            right: 10,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.amber,
+                  foregroundImage: NetworkImage(
+                      'https://avatars.githubusercontent.com/u/106743020?v=4'),
+                ),
+                Gaps.v24,
+                VideoButton(
+                  text: '2.9M',
+                  icon: FontAwesomeIcons.solidHeart,
+                ),
+                Gaps.v24,
+                VideoButton(text: '33.0K', icon: FontAwesomeIcons.solidComment),
+                Gaps.v24,
+                VideoButton(
+                  text: 'Share',
+                  icon: FontAwesomeIcons.share,
+                ),
+              ],
             ),
           ),
         ],
