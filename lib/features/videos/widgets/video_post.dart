@@ -109,6 +109,7 @@ class _VideoPostState extends State<VideoPost>
     }
     // TODO: !important showModalBottomSheet
     await showModalBottomSheet(
+        isScrollControlled: true,
         backgroundColor: Colors.transparent,
         context: context,
         builder: (context) => const VideoComments());
