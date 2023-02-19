@@ -81,9 +81,12 @@ class _VideoPostState extends State<VideoPost>
         !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
+    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
+      _onTogglePause();
+    }
   }
 
-  void _togglePause() {
+  void _onTogglePause() {
     if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
       _animationController.reverse();
@@ -105,7 +108,7 @@ class _VideoPostState extends State<VideoPost>
 
   void _onCommentsTap(BuildContext context) async {
     if (_videoPlayerController.value.isPlaying) {
-      _togglePause();
+      _onTogglePause();
     }
     // TODO: !important showModalBottomSheet
     await showModalBottomSheet(
@@ -114,7 +117,7 @@ class _VideoPostState extends State<VideoPost>
         context: context,
         builder: (context) => const VideoComments());
     // closed event
-    _togglePause();
+    _onTogglePause();
   }
 
   @override
@@ -133,7 +136,7 @@ class _VideoPostState extends State<VideoPost>
           ),
           Positioned.fill(
             child: GestureDetector(
-              onTap: _togglePause,
+              onTap: _onTogglePause,
             ),
           ),
           Positioned.fill(
